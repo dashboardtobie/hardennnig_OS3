@@ -45,7 +45,7 @@ On peut indiquer dans la conf OpenSSH qu'un nouvel utilisateur doit être automa
 🌞 **Créez un user `imsad`**
 
 ```
-[dash@localhost ~]$ sudo useradd -m -d /srv/get_chrooted/home/imsad -s /bin/bash imsad
+[dash@localhost ~]$ sudo useradd -d /home/imsad -s /bin/bash imsad
 [sudo] password for dash: 
 [dash@localhost ~]$ sudo passwd imsad
 ```
