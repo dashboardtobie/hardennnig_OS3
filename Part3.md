@@ -49,7 +49,6 @@ cgroup.procs            cpuset.cpus.effective   dev-hugepages.mount    memory.nu
 ```
 
 - prouvez que les controllers activés sur `meow` ont bien été hérités
-- 
 ```
 [dash@localhost ~]$ cat /sys/fs/cgroup/meow/task1/cgroup.controllers 
 cpuset cpu memory
