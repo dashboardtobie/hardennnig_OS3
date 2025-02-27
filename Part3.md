@@ -152,16 +152,8 @@ MiB Swap:    820.0 total,    758.8 free,     61.2 used.    294.5 avail Mem
 
 ### A. One-shot
 
-Y'a une commande rigolote et parfois pratique qui permet de jouer avec tout ça. Une commande qui permet de créer un service système temporaire à la volée en une seule ligne de commande : `systemd-run`.
-
-> Pour plusieurs tests dans le TP, on se servira du serveur Web embarqué par Python. Il se lance en une seule commande, fait des trucs sur le système (serveur web, donc il lit des fichiers, fait des connexions réseau), c'est parfait pour faire des tests ! Pour le lancer : `python -m http.server 8888`.
-
 🌞 **Lancer un serveur Web Python sous forme de service temporaire**
 
-- avec la commande `python -m http.server <PORT>`
-- n'oubliez pas d'ouvrir ce port dans le firewall pour tester
-- il faudra le lancer avec la commande `systemd-run` pour en faire un service temporaire
-- affichez le `status` du service pour prouver qu'il run
 ```
 [dash@localhost ~]$ sudo firewall-cmd --add-port=8888/tcp --permanent
 [dash@localhost ~]$ sudo firewall-cmd --reload
@@ -196,9 +188,6 @@ sudo systemd-run -u meow_test sleep 9999
 Running as unit: meow_test.service
 ```
 
-
-> En vrai, `systemd-run` est un tool vraiment pratique pour limiter l'accès aux ressources d'un process qu'on lance oneshot.
-
 🌞 **Restrictions *CGroup* ?**
 
 - prouvez que la restriction à 234M de `systemd-run` est mise en place avec les *CGroups* Linux
@@ -206,15 +195,11 @@ Running as unit: meow_test.service
 [dash@localhost ~]$ sudo grep -nri $(( 234 * 1024 * 1024 )) /sys/fs/cgroup 2>/dev/null
 /sys/fs/cgroup/system.slice/meow_test.service/memory.max:1:245366784
 ```
-> Les montants de RAM chelous c'pour vous permettre de faire des `grep` pour trouver facilement. Attention par contre, les restrictions automatiques appliquées par systemd sont exprimées en octets (pas KB ni MB) donc faut faire une ptite multiplication pour le trouver facilement. En l'occurence, un `grep -nri $(( 234 * 1024 * 1024 ))` depuis `/sys/fs/cgroup` fera le taff ;)
 
 ### B. Real service
 
 🌞 **Créez un service `web.service`**
 
-- habitués nan ? Faut créer un fichier dans `/etc/systemd/system/`
-- n'oubliez pas de `sudo systemctl daemon-reload` à chaque modification
-- ce service doit lancer un serveur web python sur le port 9999/tcp
 ```
 [dash@localhost ~]$ sudo firewall-cmd --add-port=9999/tcp --permanent
 [dash@localhost ~]$ sudo firewall-cmd --reload
