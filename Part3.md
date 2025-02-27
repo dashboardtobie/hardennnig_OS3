@@ -117,17 +117,18 @@ stress-ng: info:  [15333] dispatching hogs: 1 vm
   - ajouter le premier au *CGroup* `task1`
 Deja fait dans l'étape précédente
   - ajouter le deuxième au *CGroup* `task2`
-  ```
+```
   [dash@localhost ~]$ echo $$ | sudo tee /sys/fs/cgroup/meow/task2/cgroup.procs
 15166
-  ```
+```
   - dans les deux shells, lancer un processus CPU-intensive
+Dans le premier
 ```
 [dash@localhost ~]$ stress-ng --cpu 1 --timeout 0
 stress-ng: info:  [26503] setting to a 0 secs run per stressor
 stress-ng: info:  [26503] dispatching hogs: 1 cpu
 ```
-
+Dans le deuxième
 ```
 [dash@localhost ~]$ stress-ng --cpu 1 --timeout 0
 stress-ng: info:  [25606] setting to a 0 secs run per stressor
@@ -135,6 +136,7 @@ stress-ng: info:  [25606] dispatching hogs: 1 cpu
 ```
   -  constatez avec un `htop` par exemple que les deux processus ne se répartissent pas équitablement la puissance du CPU
 ```
+[dash@localhost ~]$ top
 top - 00:19:14 up 13:15,  5 users,  load average: 1.21, 1.40, 1.37
 Tasks: 213 total,   4 running, 209 sleeping,   0 stopped,   0 zombie
 %Cpu(s): 99.1 us,  0.4 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.4 hi,  0.0 si,  0.0 st
@@ -145,6 +147,7 @@ MiB Swap:    820.0 total,    758.8 free,     61.2 used.    294.5 avail Mem
    25607 dash      20   0   37476   6020   3840 R  75.8   1.3   8:12.63 stress-ng-cpu
    26504 dash      20   0   37476   6080   3840 R  15.3   1.3   0:09.90 stress-ng-cpu
 ```
+
 ## 3. systemd
 
 ### A. One-shot
